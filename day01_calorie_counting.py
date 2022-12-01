@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 # https://adventofcode.com/2022/day/1
 
 
@@ -33,6 +33,21 @@ for elf_index, elf_calories in enumerate(elf_calorie_totals):
     if elf_calories >= elf_calorie_totals[greediest_elf_index]:
         greediest_elf_index = elf_index
 
+# Order all of the elves by calories in descending order
+elf_sorted_tuples: List[Tuple[int, int]] = [
+    (elf_index, elf_calories)
+    for elf_index, elf_calories in enumerate(elf_calorie_totals)]
+elf_sorted_tuples = sorted(elf_sorted_tuples, key=lambda x: x[1], reverse=True)
+
 # Produce report
 print(f"We have {len(elf_calorie_totals)} elves carrying {sum(elf_calorie_totals)} calories.")
 print(f"The greediest elf is {greediest_elf_index} who's carrying {elf_calorie_totals[greediest_elf_index]} calories!")
+
+number_of_top_elves = 3
+print(f"Top {number_of_top_elves} Elves:")
+top_elves_total_calories = 0
+for i in range(1, number_of_top_elves+1):
+    elf_index, elf_calories = elf_sorted_tuples[i-1]
+    print(f"  Elf {elf_index} with {elf_calories} calories")
+    top_elves_total_calories += elf_calories
+print(f"Combined these {number_of_top_elves} are carrying {top_elves_total_calories} calories.")
